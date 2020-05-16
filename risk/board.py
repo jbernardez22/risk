@@ -333,25 +333,24 @@ class Board(object):
         q.append(source)
         visited = set([])
         visited.add(source)
-       
+        can_attack = False
 
         if source == target:
             return False
 
         while q:
             current_territory= q.popleft()
-           # neigh = [x for x in risk.definitions.territory_neighbors[current_territory] if self.owner(source) != self.owner(x)]
-            neigh = risk.definitions.territory_neighbors[current_territory]
+            neigh = [x for x in risk.definitions.territory_neighbors[current_territory] if self.owner(source) != self.owner(x)]
             if current_territory == target:
-                return True
+                can_attack = True
             for territory in neigh:
-                if territory not in visited and self.owner(source) == self.owner(territory):
+                if territory not in visited:
                     Dict_copy = copy.deepcopy(Dict[current_territory])
                     Dict_copy.append(territory)
                     Dict[territory] = Dict_copy
                     q.append(territory)    
                 visited.add(territory)
-            return True
+        return can_attack
 
             
 
